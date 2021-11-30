@@ -44,7 +44,6 @@ public abstract class Staff implements ICalculator {
         } else {
             throw new IllegalArgumentException("Invalid input");
         }
-
         this.paidLeave = paidLeave;
     }
 

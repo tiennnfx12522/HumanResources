@@ -10,6 +10,15 @@ public class HumanResources {
     public static final Scanner sc = new Scanner(System.in);
 
     public static void main (String [] args) {
+        try {
+            switchMenu();
+        } catch (Exception e) {
+            System.out.println("Please try again with valid input");
+            switchMenu();
+        }
+    }
+
+    public static ArrayList createStaffList (){
         ArrayList <Staff> staffList = new ArrayList<>();
 
         Staff e1 = new Employee ("Nguyen Van A", 25, 1.5, "14-11-2015", "Sales", 5, 8);
@@ -25,7 +34,10 @@ public class HumanResources {
         staffList.add(e4);
         staffList.add(e5);
         staffList.add(e6);
+        return staffList;
+    }
 
+    public static ArrayList createDeptList () {
         ArrayList <Department> departments = new ArrayList<>();
         Department d1 = new Department ();
         d1.setDeptName("HR");
@@ -44,36 +56,7 @@ public class HumanResources {
         departments.add(d2);
         departments.add(d3);
         departments.add(d4);
-
-        int selectFunction;
-        do {
-            menu();
-            System.out.print("Select function: ");
-            selectFunction = sc.nextInt();
-            switch (selectFunction) {
-                case 1:
-                    staffInformation(staffList);
-                    break;
-                case 2:
-                    departmentInformation(staffList, departments);
-                    break;
-                case 3:
-                    staffInformationByDept(staffList);
-                    break;
-                case 4:
-                    addNewStaff(staffList);
-                    break;
-                case 5:
-                    searchStaff(staffList);
-                    break;
-                case 6:
-                    displaySalaryAscending(staffList);
-                    break;
-                case 7:
-                    displaySalaryDescending(staffList);
-                    break;
-            }
-        } while (selectFunction != 0);
+        return departments;
     }
 
     public static void menu () {
@@ -86,6 +69,47 @@ public class HumanResources {
         System.out.println("6. DISPLAY SALARY IN ASCENDING ORDER");
         System.out.println("7. DISPLAY SALARY IN DESCENDING ORDER");
         System.out.println("0. EXIT");
+    }
+
+    public static void switchMenu() {
+        ArrayList <Staff> staffList = createStaffList();
+        ArrayList <Department> departments = createDeptList();
+        int selectFunction = 10;
+        do {
+            menu();
+            System.out.print("Select function: ");
+            try {
+                selectFunction = sc.nextInt();
+                switch (selectFunction) {
+                    case 1:
+                        staffInformation(staffList);
+                        break;
+                    case 2:
+                        departmentInformation(staffList, departments);
+                        break;
+                    case 3:
+                        staffInformationByDept(staffList);
+                        break;
+                    case 4:
+                        addNewStaff(staffList);
+                        break;
+                    case 5:
+                        searchStaff(staffList);
+                        break;
+                    case 6:
+                        displaySalaryAscending(staffList);
+                        break;
+                    case 7:
+                        displaySalaryDescending(staffList);
+                        break;
+                    default:
+                        System.out.println("Please enter a number from 1 to 7 to select function");
+                }
+            } catch (Exception e) {
+                sc.nextLine();
+                System.out.println("Please enter a number to select function");
+            }
+        } while (selectFunction != 0);
     }
 
     public static void staffInformation (ArrayList <Staff> staffList) {
@@ -153,40 +177,47 @@ public class HumanResources {
                     }
                 }
                 break;
+            default:
+                System.out.println("No department found. Please try again with valid input");
             }
          }
 
     public static void addNewStaff (ArrayList <Staff> staffList) {
         System.out.print("Select staff types to be added (1 = Manager, 2 = Employee): ");
         int selectStaffTypes = sc.nextInt();
-        sc.nextLine();
-        System.out.print("Input name: ");
-        String name = sc.nextLine();
-        System.out.print("Input age: ");
-        int age = sc.nextInt();
-        System.out.print("Input department: ");
-        sc.nextLine();
-        String dept = sc.nextLine();
-        System.out.print("Input start date: ");
-        String startDate = sc.nextLine();
-        System.out.print("Input paid leave: ");
-        int paidLeave = sc.nextInt();
-        System.out.print("Input salary coefficient: ");
-        sc.nextLine();
-        double salaryCoefficient = sc.nextDouble();
-        if (selectStaffTypes == 1) {
+        if (selectStaffTypes == 1 || selectStaffTypes == 2) {
             sc.nextLine();
-            System.out.print("Input title: ");
-            String title = sc.nextLine();
-            Staff newManager = new Manager (name, age, salaryCoefficient, startDate, dept, title, paidLeave);
-            staffList.add(newManager);
-        }  else if (selectStaffTypes == 2) {
+            System.out.print("Input name: ");
+            String name = sc.nextLine();
+            System.out.print("Input age: ");
+            int age = sc.nextInt();
+            System.out.print("Input department: ");
             sc.nextLine();
-            System.out.print("Input overtime: ");
-            int overtime = sc.nextInt();
-            Staff newEmployee = new Employee (name, age, salaryCoefficient, startDate, dept, paidLeave, overtime);
-            staffList.add(newEmployee);
+            String dept = sc.nextLine();
+            System.out.print("Input start date: ");
+            String startDate = sc.nextLine();
+            System.out.print("Input paid leave: ");
+            int paidLeave = sc.nextInt();
+            System.out.print("Input salary coefficient: ");
+            sc.nextLine();
+            double salaryCoefficient = sc.nextDouble();
+            if (selectStaffTypes == 1) {
+                sc.nextLine();
+                System.out.print("Input title: ");
+                String title = sc.nextLine();
+                Staff newManager = new Manager (name, age, salaryCoefficient, startDate, dept, title, paidLeave);
+                staffList.add(newManager);
+            }  else if (selectStaffTypes == 2) {
+                sc.nextLine();
+                System.out.print("Input overtime: ");
+                int overtime = sc.nextInt();
+                Staff newEmployee = new Employee (name, age, salaryCoefficient, startDate, dept, paidLeave, overtime);
+                staffList.add(newEmployee);
+            }
+        } else {
+            System.out.println("Please try again with valid input");
         }
+
     }
 
     public static void searchStaff (ArrayList <Staff> staffList) {
