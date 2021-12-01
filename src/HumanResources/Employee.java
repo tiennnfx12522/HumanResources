@@ -1,11 +1,14 @@
 package HumanResources;
 
+// Create abstract class Employee extended from class Staff
 public class Employee extends Staff {
 
+    // declare variables
     private int overtime;
     private String title;
     private double salary;
 
+    // constructors
     public Employee() {
     }
 
@@ -15,6 +18,7 @@ public class Employee extends Staff {
         this.title = "Employee";
     }
 
+    // getters and setters
     public int getOvertime() {
         return overtime;
     }
@@ -39,9 +43,11 @@ public class Employee extends Staff {
         this.salary = salary;
     }
 
+
+    // implement methods from parent class
     @Override
     public void displayInformation() {
-        System.out.printf("%-5d%-20s%-10d%-15s%-20s%-13s%-15d%.2f%30.0f\n", getId(), getName(), getAge(), getDept(), getTitle(), getStartDate(), getPaidLeave(), getSalaryCoefficient(), calculateSalary());
+        System.out.printf("%-5d%-20s%-10d%-15s%-20s%-13s%-15d%.2f%25s%35.0f\n", getId(), getName(), getAge(), getDept(), getTitle(), getStartDate(), getPaidLeave(), getSalaryCoefficient(), getOvertime(), calculateSalary());
     }
 
     @Override

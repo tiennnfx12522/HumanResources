@@ -1,15 +1,23 @@
 package HumanResources;
 
+// Create class department
 public class Department {
-    private static int Counter = 1;
+
+    // declare variables
     private int deptId;
     private String deptName;
     private int noEmployee;
 
+    // constructors
     public Department() {
-        this.deptId = Counter++;
     }
 
+    public Department(int deptId, String deptName) {
+        this.deptId = deptId;
+        this.deptName = deptName;
+    }
+
+    // getters & setters
     public int getDeptId() {
         return deptId;
     }
@@ -34,6 +42,7 @@ public class Department {
         this.noEmployee = noEmployee;
     }
 
+    // toString method helps represent any object as a string
     @Override
     public String toString () {
         return String.format("%-10d%-20s%-5d", getDeptId(), getDeptName(), getNoEmployee());

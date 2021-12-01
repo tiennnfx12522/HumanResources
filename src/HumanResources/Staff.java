@@ -1,12 +1,9 @@
 package HumanResources;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-// Create abstract class Staff
+// Create abstract class Staff and implements interface ICalculator
 public abstract class Staff implements ICalculator {
 
-    //declare variables
+    // declare variables
     private static int Counter = 1;
     private int Id;
     private String name;
@@ -16,7 +13,7 @@ public abstract class Staff implements ICalculator {
     private String dept;
     private int paidLeave;
 
-    //constructors
+    // constructors
     public Staff () {
     }
 
@@ -25,29 +22,12 @@ public abstract class Staff implements ICalculator {
         this.name = name;
         this.age = age;
         this.salaryCoefficient = salaryCoefficient;
-
-        // Validate input for date
-        String regex = "^([0]?[1-9]|[1|2][0-9]|[3][0|1])[./-]([0]?[1-9]|[1][0-2])[./-]([0-9]{4}|[0-9]{2})$";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(startDate);
-        if (startDate.trim().equals("")) {
-            throw new NullPointerException("This cannot be null");
-        } else if (matcher.matches()){
-            this.startDate = startDate;
-        } else {
-            throw new IllegalArgumentException("Invalid input");
-        }
-
-        // Validate input for department
-        if (dept.equals("IT") || dept.equals("Finance") || dept.equals("HR") || dept.equals("Sales")) {
-            this.dept = dept;
-        } else {
-            throw new IllegalArgumentException("Invalid input");
-        }
+        this.startDate = startDate;
+        this.dept = dept;
         this.paidLeave = paidLeave;
     }
 
-    //getters and setters
+    // getters and setters
     public int getId() {
         return Id;
     }
@@ -104,6 +84,7 @@ public abstract class Staff implements ICalculator {
         this.paidLeave = paidLeave;
     }
 
+    // displayInformation function
     public abstract void displayInformation();
 
 }
