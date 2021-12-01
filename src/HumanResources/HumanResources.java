@@ -1,3 +1,10 @@
+/*
+    This program was developed to create a simple application called HumanResources.
+    The application allows user to choose different functions to fulfil tasks such as display staff information,
+    display department information, add new staff, search staff by id or name, calculate and display salary table in
+    ascending and descending order
+*/
+
 package HumanResources;
 
 // import relevant classes in java.util package
