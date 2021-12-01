@@ -277,7 +277,7 @@ public class HumanResources {
                 int overtime = sc.nextInt();
 
                 // validate user inputs before create new staff object and add new staff into staffList
-                if (dept.equals("HR") || dept.equals("Finance") || dept.equals("Sales") || dept.equals("IT") && matcher.matches()) {
+                if ((dept.equals("HR") || dept.equals("Finance") || dept.equals("Sales") || dept.equals("IT")) && matcher.matches()) {
                     Staff newEmployee = new Employee (name, age, salaryCoefficient, startDate, dept, paidLeave, overtime);
                     staffList.add(newEmployee);
                 } else {
