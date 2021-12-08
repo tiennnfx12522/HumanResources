@@ -12,9 +12,10 @@ public class Department {
     public Department() {
     }
 
-    public Department(int deptId, String deptName) {
+    public Department(int deptId, String deptName, int noEmployee) {
         this.deptId = deptId;
         this.deptName = deptName;
+        this.noEmployee = noEmployee;
     }
 
     // getters & setters

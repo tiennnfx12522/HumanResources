@@ -1,7 +1,7 @@
 package HumanResources;
 
-// Create abstract class Employee extended from class Staff
-public class Employee extends Staff {
+// Create abstract class Employee extended from class Staff and implementing ICalculator
+public class Employee extends Staff implements ICalculator {
 
     // declare variables
     private int overtime;

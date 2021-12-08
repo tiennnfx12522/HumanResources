@@ -1,10 +1,10 @@
 package HumanResources;
 
-// Create abstract class Staff and implements interface ICalculator
-public abstract class Staff implements ICalculator {
+// Create abstract class Staff
+public abstract class Staff {
 
     // declare variables
-    private static int Counter = 1;
+    private static int counter = 1;
     private int Id;
     private String name;
     private int age;
@@ -18,7 +18,7 @@ public abstract class Staff implements ICalculator {
     }
 
     public Staff(String name, int age, double salaryCoefficient, String startDate, String dept, int paidLeave) {
-        this.Id = Counter++;
+        this.Id = counter++;
         this.name = name;
         this.age = age;
         this.salaryCoefficient = salaryCoefficient;

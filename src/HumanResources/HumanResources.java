@@ -50,10 +50,10 @@ public class HumanResources {
         ArrayList <Department> departments = new ArrayList<>();
 
         // create new department objects using constructors
-        Department d1 = new Department (1, "HR");
-        Department d2 = new Department (2, "Finance");
-        Department d3 = new Department (3, "Sales");
-        Department d4 = new Department (4, "IT");
+        Department d1 = new Department (1, "HR", 2);
+        Department d2 = new Department (2, "Finance", 1);
+        Department d3 = new Department (3, "Sales", 1);
+        Department d4 = new Department (4, "IT", 2);
 
         // add objects into array list
         departments.add(d1);
@@ -101,13 +101,13 @@ public class HumanResources {
                         staffInformation(staffList);
                         break;
                     case 2:
-                        departmentInformation(staffList, departments);
+                        departmentInformation(departments);
                         break;
                     case 3:
                         staffInformationByDept(staffList);
                         break;
                     case 4:
-                        addNewStaff(staffList);
+                        addNewStaff(staffList, departments);
                         break;
                     case 5:
                         searchStaff(staffList);
@@ -141,30 +141,7 @@ public class HumanResources {
     }
 
     // method to display department information
-    public static void departmentInformation(ArrayList <Staff> staffList, ArrayList <Department> departments) {
-
-        // initiate variables to store staff count for each department
-        int countHR = 0;
-        int countFinance = 0;
-        int countSales = 0;
-        int countIT = 0;
-
-        // iterate staffList to count number of staff in each department
-        for (Staff o: staffList) {
-            switch (o.getDept()) {
-                case "HR" -> countHR++;
-                case "Finance" -> countFinance++;
-                case "Sales" -> countSales++;
-                case "IT" -> countIT++;
-            }
-        }
-
-        // update staff count for all departments
-        departments.get(0).setNoEmployee(countHR);
-        departments.get(1).setNoEmployee(countFinance);
-        departments.get(2).setNoEmployee(countSales);
-        departments.get(3).setNoEmployee(countIT);
-
+    public static void departmentInformation(ArrayList <Department> departments) {
         // display department information
         System.out.printf("%-10s%-20s%-5s\n", "DeptID", "Department name", "Number of employees");
         for (Department o: departments) {
@@ -175,49 +152,34 @@ public class HumanResources {
     // method to display staff information by chosen department
     public static void staffInformationByDept (ArrayList <Staff> staffList) {
 
-        // print message to prompt user input
-        System.out.print("Select department to display information (1 = HR, 2 = Finance, 3 = Sales, 4 = IT): ");
-        int selectDepartment = sc.nextInt();
-
         // display staff information by chosen department
         System.out.printf("%-5s%-20s%-10s%-15s%-20s%-13s%-15s%-28s%-30s%-5s\n", "Id", "Name", "Age", "Department" ,
                 "Title", "Start Date", "Paid leave", "Salary Coefficient", "Overtime", "Salary");
-        switch (selectDepartment) {
-            case 1:
-                for (Staff o : staffList) {
-                    if (o.getDept().equals("HR")) {
-                        o.displayInformation();
-                    }
-                }
-                break;
-            case 2:
-                for (Staff o : staffList) {
-                    if (o.getDept().equals("Finance")) {
-                        o.displayInformation();
-                    }
-                }
-                break;
-            case 3:
-                for (Staff o : staffList) {
-                    if (o.getDept().equals("Sales")) {
-                        o.displayInformation();
-                    }
-                }
-                break;
-            case 4:
-                for (Staff o : staffList) {
-                    if (o.getDept().equals("IT")) {
-                        o.displayInformation();
-                    }
-                }
-                break;
-            default:
-                System.out.println("No department found. Please try again with valid input.");
+
+        for (Staff o : staffList) {
+            if (o.getDept().equals("HR")) {
+                o.displayInformation();
             }
-         }
+        }
+        for (Staff o : staffList) {
+            if (o.getDept().equals("Sales")) {
+                o.displayInformation();
+            }
+        }
+        for (Staff o : staffList) {
+            if (o.getDept().equals("Finance")) {
+                o.displayInformation();
+            }
+        }
+        for (Staff o : staffList) {
+            if (o.getDept().equals("IT")) {
+                o.displayInformation();
+            }
+        }
+    }
 
     // method to add new staff
-    public static void addNewStaff (ArrayList <Staff> staffList) {
+    public static void addNewStaff (ArrayList <Staff> staffList, ArrayList <Department> departments) {
 
         // print message to prompt user input
         System.out.print("Select staff types to be added (1 = Manager, 2 = Employee): ");
@@ -254,6 +216,7 @@ public class HumanResources {
             sc.nextLine();
             double salaryCoefficient = sc.nextDouble();
 
+            boolean b = dept.equals("HR") || dept.equals("Finance") || dept.equals("Sales") || dept.equals("IT");
             if (selectStaffTypes == 1) {
 
                 // clear unfinished line from previous nextDouble
@@ -263,23 +226,65 @@ public class HumanResources {
 
                 // validate user inputs before create new staff object and add new staff into staffList
                 if ((title.equals("Business Leader") || title.equals("Technical Leader") || title.equals("Project Leader"))
-                        && (dept.equals("HR") || dept.equals("Finance") || dept.equals("Sales") || dept.equals("IT")) && matcher.matches()) {
+                        && b && matcher.matches()) {
                     Staff newManager = new Manager (name, age, salaryCoefficient, startDate, dept, title, paidLeave);
                     staffList.add(newManager);
+
+                    // update department list
+                    int updatedInfo = 0;
+                    switch (newManager.getDept()){
+                        case "HR":
+                            updatedInfo = departments.get(0).getNoEmployee() + 1;
+                            departments.get(0).setNoEmployee(updatedInfo);
+                            break;
+                        case "Finance":
+                            updatedInfo = departments.get(1).getNoEmployee() + 1;
+                            departments.get(1).setNoEmployee(updatedInfo);
+                            break;
+                        case "Sales":
+                            updatedInfo = departments.get(2).getNoEmployee() + 1;
+                            departments.get(2).setNoEmployee(updatedInfo);
+                            break;
+                        case "IT":
+                            updatedInfo = departments.get(3).getNoEmployee() + 1;
+                            departments.get(3).setNoEmployee(updatedInfo);
+                            break;
+                    }
                 } else {
                     // print out notification if the user enters invalid input
                     System.out.println("Invalid input! Please try again!");
                 }
-            }  else if (selectStaffTypes == 2) {
+            }   else if (selectStaffTypes == 2) {
                 // clear unfinished line from previous nextDouble
                 sc.nextLine();
                 System.out.print("Input overtime: ");
                 int overtime = sc.nextInt();
 
                 // validate user inputs before create new staff object and add new staff into staffList
-                if ((dept.equals("HR") || dept.equals("Finance") || dept.equals("Sales") || dept.equals("IT")) && matcher.matches()) {
+                if (b && matcher.matches()) {
                     Staff newEmployee = new Employee (name, age, salaryCoefficient, startDate, dept, paidLeave, overtime);
                     staffList.add(newEmployee);
+
+                    // update department list
+                    int updatedInfo;
+                    switch (newEmployee.getDept()) {
+                        case "HR" -> {
+                            updatedInfo = departments.get(0).getNoEmployee() + 1;
+                            departments.get(0).setNoEmployee(updatedInfo);
+                        }
+                        case "Finance" -> {
+                            updatedInfo = departments.get(1).getNoEmployee() + 1;
+                            departments.get(1).setNoEmployee(updatedInfo);
+                        }
+                        case "Sales" -> {
+                            updatedInfo = departments.get(2).getNoEmployee() + 1;
+                            departments.get(2).setNoEmployee(updatedInfo);
+                        }
+                        case "IT" -> {
+                            updatedInfo = departments.get(3).getNoEmployee() + 1;
+                            departments.get(3).setNoEmployee(updatedInfo);
+                        }
+                    }
                 } else {
                     // print out notification if the user enters invalid input
                     System.out.println("Invalid input! Please try again!");
@@ -354,12 +359,27 @@ public class HumanResources {
 
     // method to display salary table in ascending order
     public static void displaySalaryAscending (ArrayList <Staff> staffList) {
+
         Collections.sort(staffList, new Comparator<Staff>() {
             @Override
             public int compare(Staff o1, Staff o2) {
-                return (int) (o1.calculateSalary() - o2.calculateSalary());
+                double o1Salary = 0;
+                double o2Salary = 0;
+                if (o1 instanceof Employee) {
+                    o1Salary = ((Employee) o1).calculateSalary();
+                } else if (o1 instanceof Manager) {
+                    o1Salary = ((Manager) o1).calculateSalary();
+                }
+
+                if (o2 instanceof Employee) {
+                    o2Salary = ((Employee) o2).calculateSalary();
+                } else if (o2 instanceof Manager) {
+                    o2Salary = ((Manager) o2).calculateSalary();
+                }
+                return (int) (o1Salary - o2Salary);
             }
         });
+
         System.out.printf("%-5s%-20s%-10s%-15s%-20s%-13s%-15s%-28s%-30s%-5s\n", "Id", "Name", "Age", "Department" ,
                 "Title", "Start Date", "Paid leave", "Salary Coefficient", "Overtime", "Salary");
         for (Staff o : staffList) {
@@ -372,9 +392,23 @@ public class HumanResources {
         Collections.sort(staffList, new Comparator<Staff>() {
             @Override
             public int compare(Staff o1, Staff o2) {
-                return (int) (o2.calculateSalary() - o1.calculateSalary());
+                double o1Salary = 0;
+                double o2Salary = 0;
+                if (o1 instanceof Employee) {
+                    o1Salary = ((Employee) o1).calculateSalary();
+                } else if (o1 instanceof Manager) {
+                    o1Salary = ((Manager) o1).calculateSalary();
+                }
+
+                if (o2 instanceof Employee) {
+                    o2Salary = ((Employee) o2).calculateSalary();
+                } else if (o2 instanceof Manager) {
+                    o2Salary = ((Manager) o2).calculateSalary();
+                }
+                return (int) (o2Salary - o1Salary);
             }
         });
+
         System.out.printf("%-5s%-20s%-10s%-15s%-20s%-13s%-15s%-28s%-30s%-5s\n", "Id", "Name", "Age", "Department" ,
                 "Title", "Start Date", "Paid leave", "Salary Coefficient", "Overtime", "Salary");
         for (Staff o : staffList) {

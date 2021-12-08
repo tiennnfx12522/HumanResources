@@ -1,7 +1,7 @@
 package HumanResources;
 
-// Create abstract class Manager extended from class Staff
-public class Manager extends Staff {
+// Create abstract class Manager extended from class Staff implementing ICalculator
+public class Manager extends Staff implements ICalculator {
 
     // declare variables
     private String title;
